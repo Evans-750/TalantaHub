@@ -4,15 +4,15 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 export default function Discover() {
-  const { talents = [] } = useTalent() || {};
+  const { talents = [] } = useTalent();
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     AOS.init({ duration: 900, easing: 'ease-out-cubic' });
   }, []);
 
-  // Filtered results based on bio text
-  const filteredTalents = talents.filter(talent =>
+  // Filter talents based on search
+  const filteredTalents = talents.filter((talent) =>
     talent.bio?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -25,7 +25,7 @@ export default function Discover() {
         Discover Talent
       </h1>
 
-      {/* ─────── Search Bar ─────── */}
+      {/* Search Bar */}
       <div className="flex justify-center mb-10" data-aos="fade-down">
         <input
           type="text"
@@ -36,8 +36,12 @@ export default function Discover() {
         />
       </div>
 
-      {/* ─────── Talent Cards or Message ─────── */}
-      {filteredTalents.length === 0 ? (
+      {/* Talent Cards or Empty Message */}
+      {talents.length === 0 ? (
+        <p className="text-gray-200 text-center text-lg" data-aos="zoom-in">
+          No talents uploaded yet. Be the first to showcase your talent! 
+        </p>
+      ) : filteredTalents.length === 0 ? (
         <p className="text-gray-200 text-center text-lg" data-aos="zoom-in">
           No matching talents found. Try another keyword.
         </p>
@@ -45,7 +49,7 @@ export default function Discover() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredTalents.map((t, idx) => (
             <article
-              key={idx}
+              key={t.id}
               data-aos="fade-up"
               data-aos-delay={idx * 100}
               className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden flex flex-col border border-white/10"
@@ -64,7 +68,6 @@ export default function Discover() {
 
               <div className="flex flex-col flex-1 p-4 space-y-2">
                 <h3 className="text-lg font-bold text-indigo-900">{t.name}</h3>
-
                 <p className="text-sm text-slate-800 flex-1 whitespace-pre-line line-clamp-4">
                   {t.bio}
                 </p>
@@ -83,23 +86,6 @@ export default function Discover() {
                     className="inline-flex items-center gap-1 text-indigo-600 text-sm font-semibold hover:underline"
                   >
                     View Showcase
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-4 h-4"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M12 5.25a.75.75 0 01.75-.75h6.5a.75.75 0 01.75.75v6.5a.75.75 0 01-1.5 0V7.81l-6.72 6.72a.75.75 0 11-1.06-1.06l6.72-6.72h-4.44a.75.75 0 01-.75-.75z"
-                        clipRule="evenodd"
-                      />
-                      <path
-                        fillRule="evenodd"
-                        d="M4.25 6a1.75 1.75 0 011.75-1.75h6.5a.75.75 0 010 1.5h-6.5a.25.25 0 00-.25.25v11.5c0 .138.112.25.25.25h11.5a.25.25 0 00.25-.25v-6.5a.75.75 0 011.5 0v6.5A1.75 1.75 0 0117.75 20h-11.5A1.75 1.75 0 014.5 18.25V6z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
                   </a>
                 )}
               </div>

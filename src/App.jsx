@@ -17,7 +17,7 @@ import { OpportunitiesProvider } from './contexts/OpportunitiesContext';
 
 export default function App() {
   return (
-    <Router>
+    
       <AuthProvider>
         <TalentProvider>
           <OpportunitiesProvider>
@@ -65,6 +65,6 @@ export default function App() {
           </OpportunitiesProvider>
         </TalentProvider>
       </AuthProvider>
-    </Router>
+    
   );
 }
